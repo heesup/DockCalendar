@@ -18,20 +18,6 @@ Taken with the built-in demo data.
 
 ![Week view: left panel and a seven-day time grid](screenshots/week.png)
 
-## Install
-
-Requirements: Windows 11, PowerToys Command Palette 0.9 or newer with the Dock enabled, and the .NET 10 SDK (`10.0.401` or later).
-
-To check the machine and install what is missing (the .NET 10 SDK, Developer Mode, PowerToys), run `./setup.ps1` first; `./setup.ps1 -CheckOnly` only reports. The Windows SDK is not needed to build.
-
-```powershell
-./build-and-install.ps1
-```
-
-This runs the tests, publishes, registers the package for the current user in development mode and restarts Command Palette. Then add the **Dock Calendar** band under Command Palette **Settings → Dock → Bands**. The extension, its command and its band all share that one name. Enabling the extension does not put the band on the Dock by itself.
-
-To build and test only, run `./build.ps1`.
-
 ## Connect Google Calendar
 
 Google requires an OAuth client per app, so you create one once in your own Google Cloud project (free).
