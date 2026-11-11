@@ -96,10 +96,6 @@ tools/make-icons.ps1   Generates the package icons
 - The band text is updated in place. Raising `ItemsChanged` would make Command Palette rebuild the whole Dock and reset the other bands.
 - The acrylic backdrop needs Windows 11 22H2 or later. On older versions the background is a dark solid colour instead.
 
-## Pinning the app instead of the band
-
-- The app itself can also be pinned to the Dock or Start. Each click then starts the exe, which only signals the running extension to open or close its window and exits, so there is still a single window. The **Dock Calendar** band is the better choice: it shows the date and needs no extra process per click.
-
 ## License
 
 [PolyForm Noncommercial License 1.0.0](LICENSE.md). You may use, modify and redistribute this software for any noncommercial purpose, as long as you pass on the license terms and the notice below. Commercial use is not permitted. This is a source-available license, not an OSI-approved open source one.

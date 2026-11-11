@@ -117,7 +117,7 @@ internal static class BandText
 
     public static (string Title, string Subtitle) For(DateTime now, CalendarStore store)
     {
-        var title = $"{now:M} ({now:ddd})";
+        var title = ShortDate(now);
         var today = store.EventsBetween(now.Date, now.Date.AddDays(1));
 
         var next = today
@@ -133,6 +133,17 @@ internal static class BandText
         return (title, allDay is null ? string.Empty : Shorten(allDay.Title));
     }
 
+    /// <summary>
+    /// The date as short as the culture allows, because the Dock cuts long band titles
+    /// off: the culture's month-and-day pattern with the month abbreviated, then the
+    /// weekday. "Nov 10 (Tue)" in English, "11월 10일 (화)" in Korean.
+    /// </summary>
+    internal static string ShortDate(DateTime date)
+    {
+        var culture = System.Globalization.CultureInfo.CurrentCulture;
+        var monthDay = culture.DateTimeFormat.MonthDayPattern.Replace("MMMM", "MMM");
+        return $"{date.ToString(monthDay, culture)} ({date.ToString("ddd", culture)})";
+    }
     private static string Shorten(string text) =>
         text.Length <= MaxTitleLength ? text : text[..(MaxTitleLength - 1)].TrimEnd() + "…";
 }
