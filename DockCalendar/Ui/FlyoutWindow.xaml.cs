@@ -31,12 +31,20 @@ public partial class FlyoutWindow : Window
     // asks to toggle it. Ignoring a toggle this soon after a hide keeps it closed.
     private static readonly TimeSpan ReopenGuard = TimeSpan.FromMilliseconds(400);
 
+    // Command Palette can take longer than that to deliver the click, so the same click
+    // is also recognised by where it happened: the pointer has not moved since the
+    // window lost focus.
+    private static readonly TimeSpan SameClickWindow = TimeSpan.FromSeconds(1.5);
+    private const int SameClickDistance = 6;
+
     private readonly AppServices _services;
     private readonly FlyoutOptions _options;
     private readonly CalendarStore _store;
     private readonly DispatcherTimer _clock;
     private Native.POINT _anchor;
     private DateTime _hiddenAt = DateTime.MinValue;
+    private DateTime _focusLostAt = DateTime.MinValue;
+    private Native.POINT _focusLostCursor;
     private DateTime _selected = DateTime.Today;
     private DateTime _month = FirstOfMonth(DateTime.Today);
     private DateTime _clockDay = DateTime.Today;
@@ -81,7 +89,7 @@ public partial class FlyoutWindow : Window
             return;
         }
 
-        if (DateTime.UtcNow - _hiddenAt < ReopenGuard)
+        if (DateTime.UtcNow - _hiddenAt < ReopenGuard || IsClickThatClosedIt(cursor))
         {
             return;
         }
@@ -147,9 +155,17 @@ public partial class FlyoutWindow : Window
         }
     }
 
+    /// <summary>True when this toggle comes from the very click that took focus away and hid the window.</summary>
+    private bool IsClickThatClosedIt(Native.POINT cursor) =>
+        DateTime.UtcNow - _focusLostAt < SameClickWindow &&
+        Math.Abs(cursor.X - _focusLostCursor.X) <= SameClickDistance &&
+        Math.Abs(cursor.Y - _focusLostCursor.Y) <= SameClickDistance;
+
     protected override void OnDeactivated(EventArgs e)
     {
         base.OnDeactivated(e);
+        _focusLostAt = DateTime.UtcNow;
+        _focusLostCursor = Native.CursorPosition();
 
         // A standalone run ends when the flyout hides, which would kill a sign-in that
         // is waiting for the browser.
