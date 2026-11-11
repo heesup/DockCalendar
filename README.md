@@ -93,3 +93,11 @@ tools/make-icons.ps1   Generates the package icons
 - The window appears beside the screen edge where the Dock is (judged from the mouse pointer). Opened from anywhere else, it appears at the bottom right of the work area.
 - The band text is updated in place. Raising `ItemsChanged` would make Command Palette rebuild the whole Dock and reset the other bands.
 - The acrylic backdrop needs Windows 11 22H2 or later. On older versions the background is a dark solid colour instead.
+
+## License
+
+[PolyForm Noncommercial License 1.0.0](LICENSE.md). You may use, modify and redistribute this software for any noncommercial purpose, as long as you pass on the license terms and the notice below. Commercial use is not permitted. This is a source-available license, not an OSI-approved open source one.
+
+> Required Notice: Copyright (c) 2026 Heesup Yun (https://github.com/heesup/DockCalendar)
+
+Parts adapted from other projects are listed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
