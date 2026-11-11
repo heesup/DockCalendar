@@ -8,6 +8,16 @@ PowerToys Command Palette Dock에 날짜 밴드를 추가하고, 클릭하면 Wi
 - Windows의 라이트/다크 모드와 강조색을 따르고, 시스템 언어가 한국어면 한국어로, 아니면 영어로 표시됩니다.
 - 일정은 **읽기 전용**입니다. 일정을 클릭하면 Google 캘린더 웹에서 열립니다.
 
+## 스크린샷
+
+데모 데이터로 찍은 화면입니다.
+
+| 월간 | 일간 |
+|---|---|
+| ![월간 보기: 미니 달력과 일정 목록](screenshots/month.png) | ![일간 보기: 왼쪽 패널과 하루 시간 그리드](screenshots/day.png) |
+
+![주간 보기: 왼쪽 패널과 일주일 시간 그리드](screenshots/week.png)
+
 ## 설치
 
 필요한 것: Windows 11, Dock을 켠 PowerToys Command Palette 0.9 이상, .NET 10 SDK(`10.0.401` 이상).
