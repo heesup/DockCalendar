@@ -30,6 +30,7 @@ public sealed partial class DockCalendarCommandsProvider : CommandProvider, IDis
         _services = AppServices.Create(demo: false);
         _host = new FlyoutHost(_services, new FlyoutOptions(Pinned: false, ExitWhenHidden: false, InitialView: null));
         _host.Start();
+        ToggleSignal.Listen(_host.Toggle);
 
         var toggle = new ToggleCalendarCommand(_host);
         _bandItem = new ListItem(toggle) { Icon = new IconInfo("") };

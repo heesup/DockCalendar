@@ -22,6 +22,8 @@ Taken with the built-in demo data.
 
 Requirements: Windows 11, PowerToys Command Palette 0.9 or newer with the Dock enabled, and the .NET 10 SDK (`10.0.401` or later).
 
+To check the machine and install what is missing (the .NET 10 SDK, Developer Mode, PowerToys), run `./setup.ps1` first; `./setup.ps1 -CheckOnly` only reports. The Windows SDK is not needed to build.
+
 ```powershell
 ./build-and-install.ps1
 ```
@@ -93,6 +95,10 @@ tools/make-icons.ps1   Generates the package icons
 - The window appears beside the screen edge where the Dock is (judged from the mouse pointer). Opened from anywhere else, it appears at the bottom right of the work area.
 - The band text is updated in place. Raising `ItemsChanged` would make Command Palette rebuild the whole Dock and reset the other bands.
 - The acrylic backdrop needs Windows 11 22H2 or later. On older versions the background is a dark solid colour instead.
+
+## Pinning the app instead of the band
+
+- The app itself can also be pinned to the Dock or Start. Each click then starts the exe, which only signals the running extension to open or close its window and exits, so there is still a single window. The **Dock Calendar** band is the better choice: it shows the date and needs no extra process per click.
 
 ## License
 

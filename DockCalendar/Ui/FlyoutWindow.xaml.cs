@@ -122,6 +122,8 @@ public partial class FlyoutWindow : Window
         // WPF writes the window styles again while showing, so strip them afterwards too.
         Native.MakeFlyoutWindow(handle);
         Place();
+        _shownAt = DateTime.UtcNow;
+        _refocused = false;
         Native.ForceForeground(handle);
         Activate();
         Focus();
@@ -155,6 +157,31 @@ public partial class FlyoutWindow : Window
         }
     }
 
+    // Right after opening, focus can be pulled away again by whatever was clicked to open
+    // the window (the Dock re-activating itself, or a launcher process ending). That is
+    // not the user leaving, so the window takes focus back once instead of closing.
+    private static readonly TimeSpan OpeningGrace = TimeSpan.FromMilliseconds(700);
+    private DateTime _shownAt = DateTime.MinValue;
+    private bool _refocused;
+
+    private bool RefocusIfJustOpened()
+    {
+        if (_refocused || DateTime.UtcNow - _shownAt > OpeningGrace)
+        {
+            return false;
+        }
+
+        _refocused = true;
+        Dispatcher.BeginInvoke(() =>
+        {
+            if (IsVisible)
+            {
+                Native.ForceForeground(new WindowInteropHelper(this).Handle);
+                Activate();
+            }
+        });
+        return true;
+    }
     /// <summary>True when this toggle comes from the very click that took focus away and hid the window.</summary>
     private bool IsClickThatClosedIt(Native.POINT cursor) =>
         DateTime.UtcNow - _focusLostAt < SameClickWindow &&
@@ -169,7 +196,7 @@ public partial class FlyoutWindow : Window
 
         // A standalone run ends when the flyout hides, which would kill a sign-in that
         // is waiting for the browser.
-        if (_options.Pinned || (_signingIn && _options.ExitWhenHidden))
+        if (_options.Pinned || (_signingIn && _options.ExitWhenHidden) || RefocusIfJustOpened())
         {
             return;
         }
