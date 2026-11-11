@@ -18,6 +18,34 @@ Taken with the built-in demo data.
 
 ![Week view: left panel and a seven-day time grid](screenshots/week.png)
 
+## Development setup
+
+There is no installer yet, so the extension is built from source.
+
+| Needed | Why | `setup.ps1` installs it |
+|---|---|---|
+| Windows 11 | The Dock and the window styling | no |
+| .NET 10 SDK, `10.0.401` or a later 10.0 feature band | Builds the project | yes |
+| Developer Mode | `build-and-install.ps1` registers an unsigned development package | turns it on when run as administrator |
+| PowerToys with Command Palette 0.9 or newer, Dock enabled | Hosts the extension | yes |
+
+```powershell
+./setup.ps1 -CheckOnly   # report what is missing, change nothing
+./setup.ps1              # install what is missing with winget
+```
+
+The Windows SDK is not needed. The project targets `net10.0-windows10.0.26100.0`, and the .NET SDK takes the Windows API reference assemblies from the `Microsoft.Windows.SDK.NET.Ref` NuGet package during restore; a full rebuild never touches an installed Windows SDK. It is only useful for packing and signing an `.msix` yourself with `makeappx.exe` and `signtool.exe`, and `./setup.ps1 -WithWindowsSdk` installs it for that.
+
+To build and run the tests without installing, run `./build.ps1`.
+
+## Install
+
+```powershell
+./build-and-install.ps1
+```
+
+This runs the tests, publishes, registers the package for the current user in development mode and restarts Command Palette. Then add the **Dock Calendar** band under Command Palette **Settings → Dock → Bands**. The extension, its command and its band all share that one name. Enabling the extension does not put the band on the Dock by itself.
+
 ## Connect Google Calendar
 
 Google requires an OAuth client per app, so you create one once in your own Google Cloud project (free).
