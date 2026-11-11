@@ -96,6 +96,10 @@ tools/make-icons.ps1   Generates the package icons
 - The band text is updated in place. Raising `ItemsChanged` would make Command Palette rebuild the whole Dock and reset the other bands.
 - The acrylic backdrop needs Windows 11 22H2 or later. On older versions the background is a dark solid colour instead.
 
+## Acknowledgements
+
+The overall structure of this extension (a Command Palette Dock band backed by an out-of-process COM server, and the build and install scripts) is inspired by and adapted from [AI Usage Dock](https://github.com/GChavez0210/AIUsageDock) by Gabriel Chavez.
+
 ## License
 
 [PolyForm Noncommercial License 1.0.0](LICENSE.md). You may use, modify and redistribute this software for any noncommercial purpose, as long as you pass on the license terms and the notice below. Commercial use is not permitted. This is a source-available license, not an OSI-approved open source one.
